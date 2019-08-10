@@ -1,6 +1,7 @@
 const db = require('../db');
 const _ = require('lodash');
 
+
 const executeQuery = (query, values) => {
   return db.queryAsync(query, values).spread(results => results);
 };
@@ -32,12 +33,15 @@ class Model {
    * the query.
    */
   getAll(options) {
+
     if (!options) {
       let queryString = `SELECT * FROM ${this.tablename}`;
       return executeQuery(queryString);
     }
     let parsedOptions = parseData(options);
+
     let queryString = `SELECT * FROM ${this.tablename} WHERE ${parsedOptions.string.join(' AND ')}`;
+
     return executeQuery(queryString, parsedOptions.values);
   }
 
@@ -67,7 +71,7 @@ class Model {
    */
   create(options) {
     let queryString = `INSERT INTO ${this.tablename} SET ?`;
-    return executeQuery(queryString, options);
+    return executeQuery(queryString, options)
   }
 
   /**

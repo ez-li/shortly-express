@@ -34,6 +34,7 @@ class Users extends Model {
    * the record creation or rejected with the error that occured.
    */
   create({ username, password }) {
+
     let salt = utils.createRandom32String();
 
     let newUser = {
@@ -41,9 +42,15 @@ class Users extends Model {
       salt,
       password: utils.createHash(password, salt)
     };
-
-    return super.create.call(this, newUser);
+    return super.create.call(this, newUser)
+    .then(function(data) {
+      return 'data';
+    })
+    .catch(function(error) {
+      return "error";
+    })
   }
+
 }
 
 module.exports = new Users();
