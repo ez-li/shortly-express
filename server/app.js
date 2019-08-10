@@ -15,6 +15,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
+// executing session middleware
+
+// app.use('/', Auth.createSession);
+app.use('/', function(req, res, next) {
+  // if (!req) {
+  //   console.log('hi')
+  //   next()
+  // }
+  // next()
+  // console.log(req.session)
+  // Auth.createSession(req, res, next)
+})
+
 
 
 app.get('/',
@@ -109,8 +122,6 @@ app.post('/login', (req, res) => {
         res.redirect('/login')
       }
     })
-
-
 });
 
 /************************************************************/

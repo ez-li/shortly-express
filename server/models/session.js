@@ -20,6 +20,7 @@ class Sessions extends Model {
    * with a user that is logged in.
    */
   isLoggedIn(session) {
+    console.log('HAS SESSION', session)
     return !!session.user;
   }
 
@@ -53,7 +54,10 @@ class Sessions extends Model {
   create() {
     let data = utils.createRandom32String();
     let hash = utils.createHash(data);
-    return super.create.call(this, { hash });
+    return super.create.call(this, { hash })
+      .then((data) => {
+        return hash
+      })
   }
 }
 
