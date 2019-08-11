@@ -5,6 +5,7 @@ const partials = require('express-partials');
 const bodyParser = require('body-parser');
 const Auth = require('./middleware/auth');
 const models = require('./models');
+const Cookies = require('./middleware/cookieParser')
 
 const app = express();
 
@@ -15,18 +16,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.use(Cookies)
+app.use(Auth.createSession)
 // executing session middleware
 
 // app.use('/', Auth.createSession);
-app.use('/', function(req, res, next) {
-  // if (!req) {
-  //   console.log('hi')
-  //   next()
-  // }
-  // next()
-  // console.log(req.session)
-  // Auth.createSession(req, res, next)
-})
+// app.use('/', function(req, res, next) {
+//   if (req.method === 'POST') {
+//     if (req.originUrl === '/signup') {
+//       console.log('', req.cookies)
+//       Auth.createSession(req, res, next);
+//       // console.log(req.session);
+//     }
+//     if (req.originalUrl === '/login') {
+//       // console.log(req.session)
+//       //Auth.createSession(req, res, next)
+//       // Auth.createSession(req, res, next);
+//     }
+//     // if (req.originalUrl === '/login') {
+//     //   if (models.Sessions.isLoggedIn) {
+//     //     // res.redirect('/');
+//     //   }
+//     }
+
+//  next()
+// })
 
 
 
@@ -94,10 +108,9 @@ app.post('/links',
 app.post('/signup', (req, res) => {
   // console.log(req.body);
   // use the models to handle the data
-
-  return models.Users.create(req.body)
+  models.Users.create(req.body)
     .then(function(data) {
-      if (data === 'error'){
+      if (data === 'error') {
         res.redirect('/signup')
       } else {
         res.redirect('/');
@@ -123,6 +136,7 @@ app.post('/login', (req, res) => {
       }
     })
 });
+
 
 /************************************************************/
 // Handle the code parameter route last - if all other routes fail

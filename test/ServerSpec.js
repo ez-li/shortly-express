@@ -61,7 +61,7 @@ describe('', function() {
     afterEach(function() { server.close(); });
   });
 
-  describe('Database Schema:', function() {
+  xdescribe('Database Schema:', function() {
     it('contains a users table', function(done) {
       var queryString = 'SELECT * FROM users';
       db.query(queryString, function(err, results) {
@@ -123,7 +123,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Account Creation:', function() {
+xdescribe('Account Creation:', function() {
 
     it('signup creates a new user record', function(done) {
       var options = {
@@ -504,7 +504,7 @@ describe('', function() {
       done();
     });
 
-    it('saves a new session when the server receives a request', function(done) {
+    xit('saves a new session when the server receives a request', function(done) {
       requestWithSession('http://127.0.0.1:4568/', function(err, res, body) {
         if (err) { return done(err); }
         var queryString = 'SELECT * FROM sessions';
